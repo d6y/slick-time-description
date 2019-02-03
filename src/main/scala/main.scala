@@ -5,13 +5,28 @@ object Dump extends App {
 
   //For each of these profiles...
   val profiles =
-    slick.jdbc.PostgresProfile ::
+    slick.jdbc.DB2Profile ::
     slick.jdbc.DerbyProfile ::
+    slick.jdbc.H2Profile ::
+    slick.jdbc.HsqldbProfile ::
+    slick.jdbc.SQLServerProfile ::
+    slick.jdbc.MySQLProfile ::
+    slick.jdbc.OracleProfile ::
+    slick.jdbc.PostgresProfile ::
+    slick.jdbc.SQLiteProfile ::
     Nil
 
   // ...I want to see the SQL Type and example SQL literal
   // for each of these java.time types:
-  val examples = Instant.now() :: LocalDateTime.now() :: HNil
+  val examples = 
+    Instant.now() :: 
+    LocalDate.now() ::
+    LocalTime.now() ::
+    LocalDateTime.now() ::
+    OffsetTime.now() ::
+    OffsetDateTime.now() ::
+    ZonedDateTime.now() ::
+    HNil
 
   // To do that, I'll describe each example:
   case class Description(
@@ -61,7 +76,7 @@ object Dump extends App {
 
   def asMarkdown(dbDescriptions: Seq[(DbName, Seq[Description])]): String = {
     dbDescriptions.map{ case (name, ds) =>
-      s"""# `${name.value}`
+      s"""## `${name.value}`
 
 | Java Type | SQL Type | Example SQL Literal |
 |-----------|----------|---------------------|
