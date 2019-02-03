@@ -28,13 +28,14 @@ object Dump extends App {
     ZonedDateTime.now() ::
     HNil
 
-  // To do that, I'll describe each example:
+  // To do that, I'll package each description like this:
   case class Description(
     javaTypeName: String,
     sqlTypeName: String,
-     sqlExampleLiteral: String
-   )
+    sqlExampleLiteral: String
+  )
 
+  // How to get that description?
   // For a type T, providing there's a JdbcType for it,
   // we can describe it by calling a couple of methods that
   // Slick provides:
@@ -54,6 +55,7 @@ object Dump extends App {
     implicit def default[T: JdbcType] = at[T](t => describe(t))
   }
 
+  // Give each database a name
   // E.g., the class slick.jdbc.PostgresProfile$ -> "PostgresProfile"
   case class DbName(value: String)
   def dbName(profile: slick.jdbc.JdbcProfile): DbName  =
